@@ -278,6 +278,12 @@ Complete these steps:
    adduser <user>
    ```
 
+   > 🟦 **Note**
+   >
+   > This will create a [group](./operating-system.md#group) with the same name as `<user>`.
+   >
+   > We'll refer to this group as [`<user-group>`](./operating-system.md#user-group-placeholder).
+
    The output should be similar to this:
 
    ```
