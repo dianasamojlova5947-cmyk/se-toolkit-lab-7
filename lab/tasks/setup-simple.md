@@ -406,7 +406,7 @@ You need a Telegram bot token to run your bot client.
 6. Save this token — you will put it in your `.env` as `BOT_TOKEN` when you start building the bot.
 
 > [!IMPORTANT]
-> Do not share your bot token or commit it to git. Add it to `.env` files that are in `.gitignore`.
+> Do not share your bot token or commit it to git. When you start building the bot (Task 1), you will add it to `.env.agent.secret` (already in `.gitignore` — any file matching `*.secret` is ignored).
 
 ### 1.11. Coding agent
 
