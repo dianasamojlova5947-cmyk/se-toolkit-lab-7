@@ -3,6 +3,9 @@
 <h2>Table of contents</h2>
 
 - [About the VM hardening](#about-the-vm-hardening)
+- [Hardening tools](#hardening-tools)
+  - [`ufw`](#ufw)
+  - [`fail2ban`](#fail2ban)
 - [Harden the VM](#harden-the-vm)
   - [Set up `ufw` firewall (REMOTE)](#set-up-ufw-firewall-remote)
   - [Set up `fail2ban` (REMOTE)](#set-up-fail2ban-remote)
@@ -15,6 +18,26 @@ Docs:
 
 - [CIS Benchmarks](https://www.cisecurity.org/cis-benchmarks)
 
+## Hardening tools
+
+- [`ufw`](#ufw)
+- [`fail2ban`](#fail2ban)
+
+### `ufw`
+
+`ufw` (`Uncomplicated Firewall`) is a simple firewall for [`Linux`](./linux.md#what-is-linux).
+
+By default, `ufw` denies all incoming traffic on all ports except the specified ones.
+
+### `fail2ban`
+
+`fail2ban` blocks [IP addresses](./computer-networks.md#ip-address) that make too many failed login attempts.
+
+Even if password authentication is disabled, `fail2ban` remains useful:
+
+- It rate-limits repeated [`SSH`](./ssh.md#what-is-ssh) connection attempts.
+- It can be extended to protect other services.
+
 ## Harden the VM
 
 Complete these steps:
@@ -26,10 +49,8 @@ Complete these steps:
 
 ### Set up `ufw` firewall (REMOTE)
 
-> `ufw` (`Uncomplicated Firewall`) is a simple firewall for [`Linux`](./linux.md#what-is-linux).
->
-> By default, `ufw` denies all incoming traffic.
-> The steps below create exceptions for the ports your VM needs.
+> [!NOTE]
+> See [`ufw`](#ufw).
 
 1. To allow [`SSH`](./ssh.md#what-is-ssh),
 
@@ -72,11 +93,8 @@ Complete these steps:
 
 ### Set up `fail2ban` (REMOTE)
 
-`fail2ban` blocks IP addresses that make too many failed login attempts.
-Even after password authentication is disabled, `fail2ban` remains useful:
-
-- It rate-limits repeated [`SSH`](./ssh.md#what-is-ssh) connection attempts.
-- It can be extended to protect other services.
+> [!NOTE]
+> See [`fail2ban`](#fail2ban)
 
 1. To update the package list,
 
