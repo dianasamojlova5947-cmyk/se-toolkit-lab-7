@@ -190,3 +190,4 @@ Complete these steps:
 2. [Set up the `SSH` access to the VM as the user `admin`](./vm-access.md#set-up-the-ssh-access-to-the-vm).
 3. [Provide the `Autochecker` agent with access to the VM](./autochecker.md#provide-the-autochecker-agent-with-access-to-the-vm-remote).
 4. [Harden the VM for the user `admin`](./vm-hardening.md#harden-the-vm).
+5. [Set up `Docker` as the user `admin`](./docker.md#set-up-docker-as-the-user-user-remote).
