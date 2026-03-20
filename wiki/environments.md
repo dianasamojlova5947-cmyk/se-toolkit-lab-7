@@ -9,6 +9,7 @@
   - [Staging environment](#staging-environment)
   - [Production environment](#production-environment)
 - [Environment variable](#environment-variable)
+  - [Create the environment variable `<variable>` with the value `<value>` in the current shell session](#create-the-environment-variable-variable-with-the-value-value-in-the-current-shell-session)
   - [Inspect environment variables](#inspect-environment-variables)
 - [Common environment variables](#common-environment-variables)
   - [`PATH` environment variable](#path-environment-variable)
@@ -76,6 +77,36 @@ Docs
 ## Environment variable
 
 Environment variables are named values that are available to a program running in a particular [deployment environment](#deployment-environment).
+
+### Create the environment variable `<variable>` with the value `<value>` in the current shell session
+
+1. To create an environment variable in the current [shell session](./shell.md#shell-session),
+
+   [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
+
+   ```terminal
+   <variable>=<value>
+   ```
+
+   Replace the placeholders:
+
+   - `<variable>` with the name of the variable.
+
+     Example: `VARIABLE_NAME`.
+
+   - `<value>` with the value of the variable.
+
+     Example: `VARIABLE_VALUE`.
+
+     > 🟦 **Note**
+     >
+     > The `VARIABLE_VALUE` is a string.
+
+   Example:
+
+   ```terminal
+   VARIABLE_NAME=VARIABLE_VALUE
+   ```
 
 ### Inspect environment variables
 
