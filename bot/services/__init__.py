@@ -42,22 +42,36 @@ class LmsApiClient:
                 )
                 response.raise_for_status()
                 return response.json()
-            except httpx.HTTPError:
-                return []
+            except httpx.HTTPStatusError as e:
+                raise Exception(
+                    f"HTTP {e.response.status_code} {e.response.reason_phrase}"
+                )
+            except httpx.ConnectError as e:
+                raise Exception(f"connection refused ({self.base_url})")
+            except httpx.HTTPError as e:
+                raise Exception(f"HTTP error: {str(e)}")
 
     async def get_analytics(self, lab_name: str) -> dict:
         """Get analytics/scores for a specific lab."""
         async with httpx.AsyncClient() as client:
             try:
+                # Try the pass-rates endpoint first
                 response = await client.get(
-                    f"{self.base_url}/analytics/{lab_name}",
+                    f"{self.base_url}/analytics/pass-rates",
+                    params={"lab": lab_name},
                     headers=self.headers,
                     timeout=10.0,
                 )
                 response.raise_for_status()
                 return response.json()
-            except httpx.HTTPError:
-                return {}
+            except httpx.HTTPStatusError as e:
+                raise Exception(
+                    f"HTTP {e.response.status_code} {e.response.reason_phrase}"
+                )
+            except httpx.ConnectError as e:
+                raise Exception(f"connection refused ({self.base_url})")
+            except httpx.HTTPError as e:
+                raise Exception(f"HTTP error: {str(e)}")
 
 
 class LlmClient:
@@ -87,5 +101,11 @@ class LlmClient:
                 )
                 response.raise_for_status()
                 return response.json()
+            except httpx.HTTPStatusError as e:
+                return {
+                    "error": f"HTTP {e.response.status_code} {e.response.reason_phrase}"
+                }
+            except httpx.ConnectError as e:
+                return {"error": f"LLM connection refused ({self.base_url})"}
             except httpx.HTTPError as e:
-                return {"error": str(e)}
+                return {"error": f"LLM HTTP error: {str(e)}"}
