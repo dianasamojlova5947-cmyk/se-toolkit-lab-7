@@ -40,9 +40,6 @@ async def run_command(command: str) -> str:
     - --test mode (CLI)
     - Telegram message handler
     """
-    config = load_config()
-    api_client = LmsApiClient(config)
-
     # Parse command and arguments
     parts = command.strip().split(maxsplit=1)
     cmd = parts[0].lower()
@@ -54,29 +51,11 @@ async def run_command(command: str) -> str:
     elif cmd == "/help":
         return await handle_help()
     elif cmd == "/health":
-        # Real implementation: check backend health
-        is_healthy = await api_client.health_check()
-        if is_healthy:
-            return "✅ Backend is healthy"
-        else:
-            return "❌ Backend is unreachable or unhealthy"
+        return await handle_health()
     elif cmd == "/labs":
-        # Real implementation: fetch from backend
-        items = await api_client.get_items()
-        if items:
-            labs = "\n".join(f"- {item.get('name', 'Unknown')}" for item in items)
-            return f"Available labs:\n{labs}"
-        else:
-            return "No labs available (backend may be down)"
+        return await handle_labs()
     elif cmd == "/scores":
-        if not arg:
-            return "Usage: /scores <lab-name>"
-        # Real implementation: fetch analytics from backend
-        analytics = await api_client.get_analytics(arg)
-        if analytics:
-            return f"Scores for {arg}: {analytics}"
-        else:
-            return f"No scores found for {arg}"
+        return await handle_scores(arg)
     else:
         # Unknown command or plain text
         return await handle_unknown(command)
@@ -113,34 +92,18 @@ async def run_telegram_bot():
 
     @dp.message(Command("health"))
     async def cmd_health(message: types.Message):
-        api_client = LmsApiClient(config)
-        is_healthy = await api_client.health_check()
-        if is_healthy:
-            await message.answer("✅ Backend is healthy")
-        else:
-            await message.answer("❌ Backend is unreachable or unhealthy")
+        response = await handle_health()
+        await message.answer(response)
 
     @dp.message(Command("labs"))
     async def cmd_labs(message: types.Message):
-        api_client = LmsApiClient(config)
-        items = await api_client.get_items()
-        if items:
-            labs = "\n".join(f"- {item.get('name', 'Unknown')}" for item in items)
-            await message.answer(f"Available labs:\n{labs}")
-        else:
-            await message.answer("No labs available (backend may be down)")
+        response = await handle_labs()
+        await message.answer(response)
 
     @dp.message(Command("scores"))
     async def cmd_scores(message: types.Message, args: str):
-        api_client = LmsApiClient(config)
-        if not args:
-            await message.answer("Usage: /scores <lab-name>")
-            return
-        analytics = await api_client.get_analytics(args)
-        if analytics:
-            await message.answer(f"Scores for {args}: {analytics}")
-        else:
-            await message.answer(f"No scores found for {args}")
+        response = await handle_scores(args)
+        await message.answer(response)
 
     @dp.message()
     async def handle_message(message: types.Message):
